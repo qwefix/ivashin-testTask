@@ -1,36 +1,57 @@
+@import '../../../variables.scss';
 .note{
     padding: 5px;
     background-color: white;
     display: grid;
-    grid-template-columns: auto 20px;
-    grid-template-rows: 20px 20px auto;
+    grid-template-columns: auto 30px;
+    grid-template-rows: 30px 30px auto;
     grid-gap: 5px;
     grid-template-areas: 
         'tag  d'
         't e'
         't  .'
     ;
+    .text{
+        grid-area: t;
+    }
+    .delete{
+        grid-area: d;
+        background-color: red;
+    }
+    .edit{    
+        grid-area: e;
+        background-color: blue;
+    }
+    .button{
+        cursor: pointer;
+        border-radius: 50%;
+        font-size: 15px;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: .2s;
+    }
+    .button:hover{
+        background-color: $button_active_bg;
+        color: $button_active_text;
+    }
 }
 .tags{
     grid-area: tag;
-}
-.text{
-    grid-area: t;
-}
-.delete{
-    grid-area: d;
-    background-color: red;
-}
-.edit{    
-    grid-area: e;
-    background-color: blue;
-}
-.button{
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 15px;
-    color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    .tag{
+        padding: 1px;
+        margin-left: 3px;
+        cursor: pointer;
+        background-color: $button_bg;
+        color: $button_text;
+        display: flex;
+        align-items: center;
+        transition: .2s;
+    }
+    .tag:hover{
+        background-color: $button_active_bg;
+        color: $button_active_text;
+    }
 }

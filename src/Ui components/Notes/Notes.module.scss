@@ -19,6 +19,7 @@
     background-color: $button_active_bg;
     color:$button_active_text;
 }
+
 .notes_list_container{
     margin: 5px 0;
     height: 0px;
@@ -30,4 +31,64 @@
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-gap: 10px;
+}
+@media (max-width: 1280px) {
+    .notes_list{
+        grid-template-columns: repeat(2,1fr);
+    };
+}
+@media (max-width: 780px) {
+    .notes_list{
+        grid-template-columns: repeat(1,1fr);
+    };
+}
+
+.input_container{
+    transition: .5s;
+    overflow: hidden;
+    height: 0px;
+    flex-grow: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 30px auto;
+    grid-template-areas: 
+        'a c'
+        't t'
+    ;
+    align-items: stretch;
+    grid-gap:5px;
+    .accept{
+        grid-area: a;
+        background-color: green;
+    }
+    .cancel{
+        grid-area: c;
+        background-color: red;
+    }
+    .button{
+        opacity: 0.5;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .button:hover{
+        opacity: 1;
+    }
+    .text{
+        grid-area: t;
+        padding-bottom: 5px;
+        .textarea{
+            width: 100%;
+            height: 100%;      
+            padding: 0;
+            border: none;
+            resize: none;
+        }
+        .textarea:focus{
+            outline:2px inset $button_active_bg;
+        }
+    }    
+}
+.input_container.active{
+    flex-grow: 0.5;
 }
