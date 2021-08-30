@@ -1,9 +1,14 @@
-import './App.css';
+import './App.scss';
+import Footer from './Ui components/Footer/Footer';
+import Header from './Ui components/Header/Header';
+import NotesPure from './Ui components/Notes/NotesPure';
 
 function App() {
   return (
-    <div className="App">
-      app
+    <div className="app">
+      <Header />
+      <NotesPure />
+      <Footer />
     </div>
   );
 }

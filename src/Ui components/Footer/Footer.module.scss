@@ -1,0 +1,26 @@
+@import '../../variables.scss';
+
+.footer{
+    background-color: $footer_bg;
+    width: 100%;
+    position: relative;
+    display: flex;
+    padding: 5px 0;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.footer>a{
+    margin: 0 5px ;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+.background{
+    background-color: $footer_bg;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+}
