@@ -40,6 +40,7 @@
         }
     }
 }
+
 .add_note{
     margin: 5px 0;
     border-radius: 2px;
@@ -53,6 +54,9 @@
 .add_note:hover{
     background-color: $button_active_bg;
     color:$button_active_text;
+}
+.add_note.disabled{
+    display: none;
 }
 
 .notes_list_container{

@@ -5,15 +5,5 @@ const rootReducer = combineReducers({
     notes: notesReducer
 });
 
-let initialState = {
-    notes: {
-        notesList: require('./initialState'),
-        newPostInput: {
-            value: '',
-            tags: [],
-        }
-    }
-};
-
-const store = createStore(rootReducer, initialState)
+const store = createStore(rootReducer)
 export default store

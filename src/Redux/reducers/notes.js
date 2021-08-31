@@ -1,8 +1,21 @@
 const DELETE_POST_BY_NUMBER = 'DELETE_POST_BY_NUMBER'
 const CHANGE_NEW_POST_TEXTAREA_VALUE = 'CHANGE_NEW_POST_TEXTAREA_VALUE'
 const ADD_NEW_POST_FROM_INPUT = 'ADD_NEW_POST_FROM_INPUT'
+const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
+const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
+const CLOSE_EDITOR = 'CLOSE_EDITOR'
 
-export const notesReducer = (state = {}, action) => {
+let initialState = {
+    notesList: require('../initialState'),
+    input: {
+        value: '',
+        tags: [],
+        mode: 'new',
+    },
+};
+
+export const notesReducer = (state = initialState, action) => {
+    console.log(action.type)
     switch (action.type) {
         case DELETE_POST_BY_NUMBER:
             return {
@@ -12,7 +25,8 @@ export const notesReducer = (state = {}, action) => {
         case CHANGE_NEW_POST_TEXTAREA_VALUE:
             return {
                 ...state,
-                newPostInput: {
+                input: {
+                    ...state.input,
                     value: action.value,
                     tags: action.value.split(' ')
                         .map(a => a.split('\n')).flat()
@@ -21,19 +35,28 @@ export const notesReducer = (state = {}, action) => {
                 }
             }
         case ADD_NEW_POST_FROM_INPUT:
+            if (state.input.value === '') return state
             return {
                 ...state,
                 notesList: [{
-                    tags: state.newPostInput.tags,
-                    text: state.newPostInput.value,
+                    tags: state.input.tags,
+                    text: state.input.value,
                 },
                 ...state.notesList],
-                newPostInput: {
+                input: {
                     value: '',
                     tags: []
                 },
             }
-
+        case CLOSE_EDITOR:
+            return {
+                ...state,
+                input: {
+                    value: '',
+                    tags: [],
+                    mode: false,
+                }
+            }
         default:
             return state;
     }
@@ -50,5 +73,8 @@ export const ac = {
     }),
     addNewPost: () => ({
         type: ADD_NEW_POST_FROM_INPUT,
+    }),
+    closeEditor: () => ({
+        type: CLOSE_EDITOR
     })
 }

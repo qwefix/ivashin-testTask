@@ -23,6 +23,10 @@
         grid-area: e;
         background-color: blue;
     }
+    .edit.disabled{
+        opacity: 0.3;
+        cursor: default;
+    }
     .button{
         cursor: pointer;
         border-radius: 50%;

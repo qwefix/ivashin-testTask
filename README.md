@@ -20,3 +20,4 @@ Great features
 * Deleting notes by click delete button on a Note
 * Adding new note by typing and button click
 * Hashtags is displaying 'in real time' whenever new note edits
+* If the hashtag is repeated in the text, it will be shown only once in the header of note

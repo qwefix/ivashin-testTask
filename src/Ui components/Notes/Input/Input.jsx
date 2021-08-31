@@ -3,13 +3,31 @@ import c from './Input.module.scss';
 
 function Input(props) {
     // console.log(props)
-    const { onChange, value, tags, addNewPost } = props
+    const { onChange, value, tags, addNewPost, mode,closeEditor } = props
     const inputRef = React.createRef()
+    const renderAccept = (mode) => {
+        switch (mode) {
+            case 'new':
+                return <div className={`${c.accept} ${c.button}`} onClick={() => addNewPost()}>
+                    Add Note
+                </div>
+            case 'old':
+                return <div
+                    className={`${c.accept} ${c.button}`}
+                    // onClick={() => addNewPost()}
+                >
+                    Accept
+                </div>
+            default:
+                break;
+        }
+    }
     return (
-        <div className={c.input_container + ' ' + c.active}>
+        <div className={c.input_container + ` ${mode ? c.active : ''}`}>
 
             <div className={c.text}>
                 <textarea
+                    disabled={!mode}
                     className={c.textarea}
                     value={value}
                     onChange={e => onChange(inputRef.current.value)}
@@ -17,11 +35,8 @@ function Input(props) {
                 />
             </div>
 
-            <div className={`${c.accept} ${c.button}`} onClick={()=>addNewPost()}>
-                Add Note
-            </div>
-
-            <div className={`${c.cancel} ${c.button}`}>
+            {renderAccept(mode)}
+            <div className={`${c.cancel} ${c.button}`} onClick={()=>closeEditor()}>
                 Cancel
             </div>
 

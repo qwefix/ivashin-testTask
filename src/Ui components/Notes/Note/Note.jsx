@@ -2,7 +2,7 @@ import React from 'react';
 import c from './Note.module.scss';
 
 function Note (props){
-    const{text, tags,deletePost,index}=props
+    const{text, tags,deletePost,index,isEditorIsActive}=props
     return(
         <div className = {c.note}>
             <div className={c.tags}>
@@ -18,9 +18,16 @@ function Note (props){
             >
                 D
             </div>
+            {isEditorIsActive?
+            <div className={`${c.edit} ${c.button} ${c.disabled}`} title='Close editor to edit this note'>
+            E
+            </div>
+            :
             <div className={`${c.edit} ${c.button}`} title='Edit note'>
                 E
             </div>
+            }
+            
         </div>
     )
 }
