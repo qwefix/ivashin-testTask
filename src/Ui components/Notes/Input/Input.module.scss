@@ -15,6 +15,20 @@
     ;
     align-items: stretch;
     grid-gap:5px;
+    .button{
+        cursor: pointer;
+        transition: .3s;
+        opacity: 0.8;
+        color: white;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+    }
+    .button:hover{
+        opacity: 1;
+    }
     .accept{
         grid-area: a;
         background-color: green;
@@ -22,14 +36,6 @@
     .cancel{
         grid-area: c;
         background-color: red;
-    }
-    .button{
-        opacity: 0.5;
-        cursor: pointer;
-        transition: .3s;
-    }
-    .button:hover{
-        opacity: 1;
     }
     .text{
         grid-area: t;
