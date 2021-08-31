@@ -4,6 +4,8 @@ import Note from './Note/Note';
 import c from './Notes.module.scss';
 
 function NotesPure(props) {
+    const {notesList,deletePost,changeNewPostValue,newPostInput,addNewPost}=props
+    console.log(props)
     return (
         <div className={c.notes}>
             <div className={c.search}>
@@ -23,93 +25,17 @@ function NotesPure(props) {
             </div>
             <div className={c.notes_list_container}>
                 <div className={c.notes_list}>
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag2']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1', '#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag2']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1', '#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag2']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1', '#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag2']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1', '#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag2']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag3']}
-                    />
-                    <Note
-                        text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, a?'
-                        tags={['#tag1', '#tag3']}
-                    />
+                    {notesList.map((a,i)=><Note
+                        deletePost={deletePost}
+                        index={i}
+                        key={i}
+                        text={a.text}
+                        tags={a.tags}
+                    />)}
                 </div>
             </div>
             <div className={c.add_note}>Add Note</div>
-            <Input/> 
+            <Input onChange = {changeNewPostValue} addNewPost={addNewPost} {...newPostInput}/> 
         </div>
     )
 

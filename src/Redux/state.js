@@ -1,11 +1,19 @@
 import { combineReducers, createStore } from "redux";
-import { postsReducer } from "./reducers/posts";
+import { notesReducer } from "./reducers/notes";
 
 const rootReducer = combineReducers({
-    posts: postsReducer
+    notes: notesReducer
 });
 
-let initialState = { posts: require('./initialState') };
+let initialState = {
+    notes: {
+        notesList: require('./initialState'),
+        newPostInput: {
+            value: '',
+            tags: [],
+        }
+    }
+};
 
 const store = createStore(rootReducer, initialState)
 export default store
