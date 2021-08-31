@@ -1,11 +1,26 @@
 import React from 'react';
+import Input from './Input/Input';
 import Note from './Note/Note';
 import c from './Notes.module.scss';
 
 function NotesPure(props) {
     return (
         <div className={c.notes}>
-            <div className={c.add_note}>Add Note</div>
+            <div className={c.search}>
+                <div className={c.description}>
+                    Filter by hashtags: 
+                </div>
+                <div className={c.tags}>
+                    <div className={c.tag}>
+                        #bigAss
+                        <div className={c.delete}/>
+                    </div>
+                    <div className={c.tag}>
+                        #bigAss
+                        <div className={c.delete}/>
+                    </div>
+                </div>
+            </div>
             <div className={c.notes_list_container}>
                 <div className={c.notes_list}>
                     <Note
@@ -93,15 +108,8 @@ function NotesPure(props) {
                     />
                 </div>
             </div>
-            <div className={c.input_container +' '+c.active}>
-                <div className={c.text}>
-                    <div className = {c.textarea} contentEditable>
-                        <mark>span</mark>asdfsd
-                    </div>
-                </div>
-                <div className={`${c.accept} ${c.button}`}></div>
-                <div className={`${c.cancel} ${c.button}`}></div>
-            </div>
+            <div className={c.add_note}>Add Note</div>
+            <Input/> 
         </div>
     )
 
