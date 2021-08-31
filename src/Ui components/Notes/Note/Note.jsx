@@ -2,7 +2,7 @@ import React from 'react';
 import c from './Note.module.scss';
 
 function Note (props){
-    const{text, tags,deletePost,index,isEditorIsActive}=props
+    const{text, tags,deletePost,isEditorIsActive}=props
     return(
         <div className = {c.note}>
             <div className={c.tags}>
@@ -14,7 +14,7 @@ function Note (props){
             <div 
             className={`${c.delete} ${c.button}`} 
             title='Delete note'
-            onClick={()=>deletePost(index)}
+            onClick={()=>deletePost()}
             >
                 D
             </div>

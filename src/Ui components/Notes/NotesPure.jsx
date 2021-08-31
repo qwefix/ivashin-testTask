@@ -26,8 +26,7 @@ function NotesPure(props) {
             <div className={c.notes_list_container}>
                 <div className={c.notes_list}>
                     {notesList.map((a, i) => <Note
-                        deletePost={deletePost}
-                        index={i}
+                        deletePost={()=>deletePost(i)}
                         key={i}
                         text={a.text}
                         tags={a.tags}
@@ -36,7 +35,7 @@ function NotesPure(props) {
                 </div>
             </div>
             <div
-                className={c.add_note + ' ' + `${input.mode? c.disabled:''}`}
+                className={c.add_note  + ` ${input.mode? c.disabled:''}`}
             >
                 Add Note
             </div>

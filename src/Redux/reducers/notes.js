@@ -1,11 +1,13 @@
+// import store from '../state'
+
 const DELETE_POST_BY_NUMBER = 'DELETE_POST_BY_NUMBER'
 const CHANGE_NEW_POST_TEXTAREA_VALUE = 'CHANGE_NEW_POST_TEXTAREA_VALUE'
 const ADD_NEW_POST_FROM_INPUT = 'ADD_NEW_POST_FROM_INPUT'
-const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
-const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
+// const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
+// const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
 const CLOSE_EDITOR = 'CLOSE_EDITOR'
 
-let initialState = {
+const initialState = {
     notesList: require('../initialState'),
     input: {
         value: '',
@@ -15,12 +17,12 @@ let initialState = {
 };
 
 export const notesReducer = (state = initialState, action) => {
-    console.log(action.type)
+    // console.log(action.type)
     switch (action.type) {
         case DELETE_POST_BY_NUMBER:
             return {
                 ...state,
-                noteList: state.notesList.splice(action.number, 1)
+                noteList: state.notesList.splice(action.index, 1)
             }
         case CHANGE_NEW_POST_TEXTAREA_VALUE:
             return {
@@ -35,7 +37,6 @@ export const notesReducer = (state = initialState, action) => {
                 }
             }
         case ADD_NEW_POST_FROM_INPUT:
-            if (state.input.value === '') return state
             return {
                 ...state,
                 notesList: [{
@@ -43,10 +44,6 @@ export const notesReducer = (state = initialState, action) => {
                     text: state.input.value,
                 },
                 ...state.notesList],
-                input: {
-                    value: '',
-                    tags: []
-                },
             }
         case CLOSE_EDITOR:
             return {
@@ -62,10 +59,10 @@ export const notesReducer = (state = initialState, action) => {
     }
 
 }
-export const ac = {
-    deletePost: (number) => ({
+const ac = {
+    deletePost: (index) => ({
         type: DELETE_POST_BY_NUMBER,
-        number
+        index
     }),
     changeNewPostValue: (value) => ({
         type: CHANGE_NEW_POST_TEXTAREA_VALUE,
@@ -76,5 +73,25 @@ export const ac = {
     }),
     closeEditor: () => ({
         type: CLOSE_EDITOR
-    })
+    }),
+    selectPost: (index) => {
+
+    }
+}
+const thunks = {
+    addNewPost: () => {
+        return (dispatch, getState) => {
+            if (getState().notes.input.value !== '') {
+                dispatch(ac.addNewPost())
+                dispatch(ac.closeEditor())
+            }
+        }
+    },
+}
+
+export const interFace = {
+    addNewPost: thunks.addNewPost,
+    closeEditor: ac.closeEditor,
+    changeNewPostValue: ac.changeNewPostValue,
+    deletePost: ac.deletePost,
 }
