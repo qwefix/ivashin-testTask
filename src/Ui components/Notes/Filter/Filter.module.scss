@@ -53,6 +53,7 @@
                 resize: none;
             }
             .add_tag{
+                user-select: none;
                 cursor: pointer;
                 width: 100px;
                 color:$button_text;
@@ -72,6 +73,7 @@
         max-height: 0px;
     }
     .main_button{
+        user-select: none;
         border-radius: 5px;
         margin: 5px 0;
         border-radius: 2px;

@@ -7,11 +7,12 @@ import c from './Notes.module.scss';
 function NotesPure(props) {
     // console.log(props)
     const { notesList, deletePost, changeEditorValue, input, addNewPost, filter,removeTagFromFilter,addTagToFilterByClick,
-        closeEditor, openNewPostEditor, openOldPostEditor, confirmOldPostChange, openFilter, closeFilter,changeFilterValue } = props
+        closeEditor, openNewPostEditor, openOldPostEditor, confirmOldPostChange, openFilter, closeFilter,changeFilterValue,addFilterTagByInput } = props
         const notesToRender = filter.active? filter.filtredPosts: notesList
     return (
         <div className={c.notes}>
             <Filter 
+                addFilterTagByInput={addFilterTagByInput}
                 changeFilterValue={changeFilterValue}
                 removeTagFromFilter={removeTagFromFilter}
                 openFilter={openFilter}

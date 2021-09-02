@@ -4,7 +4,7 @@ import c from './Filter.module.scss'
 export default function Filter(props) {
     // console.log(props)
     const inputRef = React.createRef()
-    const { active, tags, openFilter, closeFilter, removeTagFromFilter, input, changeFilterValue } = props
+    const { active, tags, openFilter, closeFilter, removeTagFromFilter, input, changeFilterValue,addFilterTagByInput } = props
     return <div className={c.filter_wrapper}>
         <div className={c.filter + (active ? '' : ' ' + c.closed)}>
             Filter by hashtags:
@@ -24,12 +24,13 @@ export default function Filter(props) {
                     rows='1'
                     disabled={!active}
                     value={input}
+                    onKeyPress ={(e)=>{if (e.key==='Enter')addFilterTagByInput()}}
                     onChange = {()=>changeFilterValue(inputRef.current.value)}
                     ref= {inputRef}
                 />
                 <div
                     className={c.add_tag}
-                // onClick = {active?'handler':null}
+                    onClick = {active?addFilterTagByInput:null}
                 >Add tag</div>
             </div>
         </div>

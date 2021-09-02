@@ -13,8 +13,8 @@ const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
 const REMOVE_FILTER_TAG_BY_CLICK = 'REMOVE_FILTER_TAG_BY_CLICK'
 const UPDATE_FILTER_OUTPUT_ARRAY = 'UPDATE_FILTER_OUTPUT_ARRAY'
 const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
-// const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_CLICK'
 const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
+const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_INPUT'
 
 
 const initialState = {
@@ -172,6 +172,16 @@ export const notesReducer = (state = initialState, action) => {
                     input:string,
                 }
             }
+        case ADD_FILTER_TAG_BY_INPUT:
+            if(state.filter.input===''||state.filter.input==='#')return state
+            return{
+                ...state,
+                filter:{
+                    ...state.filter,
+                    input:'',
+                    tags:[...state.filter.tags, state.filter.input]
+                }
+            }
         default:
             return state;
     }
@@ -214,6 +224,9 @@ const ac = {
     changeFilterValue:(value)=>({
         type:FILTER_INPUT_CHANGE,
         value
+    }),
+    addFilterTagByInput:()=>({
+        type:ADD_FILTER_TAG_BY_INPUT,
     }),
     changeEditorValue: (value) => ({
         type: CHANGE_NEW_POST_TEXTAREA_VALUE,
@@ -259,6 +272,10 @@ const thunks = {
         dispatch(ac.openFilter())
         dispatch(ac.addTagToFilterByClick(tag))
         dispatch(ac.updateFilterOutputArray())
+    },
+    addFilterTagByInput:()=>(dispatch)=>{
+        dispatch(ac.addFilterTagByInput())
+        dispatch(ac.updateFilterOutputArray())
     }
 }
 
@@ -270,6 +287,7 @@ export const interFace = {
     openNewPostEditor: ac.openNewPostEditor,
     closeFilter: ac.closeFilter,
     changeFilterValue: ac.changeFilterValue,
+    addFilterTagByInput:thunks.addFilterTagByInput,
     openFilter: thunks.openFilter,
     removeTagFromFilter: thunks.removeTagFromFilter,
     addTagToFilterByClick: thunks.addTagToFilterByClick,
