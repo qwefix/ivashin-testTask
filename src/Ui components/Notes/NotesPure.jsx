@@ -5,7 +5,6 @@ import Note from './Note/Note';
 import c from './Notes.module.scss';
 
 function NotesPure(props) {
-    // console.log(props)
     const { notesList, deletePost, changeEditorValue, input, addNewPost, filter,removeTagFromFilter,addTagToFilterByClick,
         closeEditor, openNewPostEditor, openOldPostEditor, confirmOldPostChange, openFilter, closeFilter,changeFilterValue,addFilterTagByInput } = props
         const notesToRender = filter.active? filter.filtredPosts: notesList
@@ -47,7 +46,6 @@ function NotesPure(props) {
             />
         </div>
     )
-
 }
 
 export default NotesPure

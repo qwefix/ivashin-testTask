@@ -9,17 +9,27 @@ function Note(props) {
                 <div className={c.tags}>
                     {tags.map((tag, i) => <div className={c.tag} onClick={() => { addTagToFilterByClick(tag) }} key={i}>{tag}</div>)}
                 </div>
-                <div className={c.text}>
+
+                <div className={c.text_holder}>
                     {text}
                 </div>
             </div>
-            <div
-                className={`${c.delete} ${c.button}`}
-                title='Delete note'
-                onClick={() => deletePost()}
-            >
-                D
-            </div>
+            {isEditorIsActive ?
+                <div
+                    className={`${c.delete} ${c.button} ${c.disabled}`}
+                    title='Close editor to delete this note'
+                >
+                    D
+                </div>
+                :
+                <div
+                    className={`${c.delete} ${c.button}`}
+                    title='Delete note'
+                    onClick={() => deletePost()}
+                >
+                    D
+                </div>
+            }
             {isEditorIsActive ?
                 <div className={`${c.edit} ${c.button} ${c.disabled}`} title='Close editor to edit this note'>
                     E

@@ -1,5 +1,6 @@
-// import store from '../state'
+const LOCAL_STORAGE_NAME ='qwefix-HRAMCHENKO_A_G-test-task-to-ivashin-from-NYBLE-CRAFT';
 
+//VARIABLES TO POVIDE ACTION TO DISPATCH
 const DELETE_POST_BY_NUMBER = 'DELETE_POST_BY_NUMBER'
 const CHANGE_NEW_POST_TEXTAREA_VALUE = 'CHANGE_NEW_POST_TEXTAREA_VALUE'
 const ADD_NEW_POST_FROM_INPUT = 'ADD_NEW_POST_FROM_INPUT'
@@ -7,7 +8,6 @@ const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
 const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
 const CLOSE_EDITOR = 'CLOSE_EDITOR'
 const CHANGE_OLD_POST = 'CHANGE_OLD_POST'
-
 const OPEN_FILTER_PANEL = 'OPEN_FILTER_PANEL'
 const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
 const REMOVE_FILTER_TAG_BY_CLICK = 'REMOVE_FILTER_TAG_BY_CLICK'
@@ -16,15 +16,14 @@ const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
 const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
 const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_INPUT'
 
-
 const initialState = {
     filter: {
         active: false,
-        input: 'sas',
+        input: '',
         tags: [],
         filtredPosts: [],
     },
-    notesList: require('../initialState'),
+    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))||require('../initialState'),
     input: {
         value: '',
         tags: [],
@@ -196,14 +195,12 @@ const ac = {
         type: CHANGE_OLD_POST,
         index,
     }),
-
     addNewPost: () => ({
         type: ADD_NEW_POST_FROM_INPUT,
     }),
     openNewPostEditor: () => ({
         type: OPEN_NEW_POST_EDITOR,
     }),
-
     openFilter: () => ({
         type: OPEN_FILTER_PANEL
     }),
@@ -239,25 +236,25 @@ const ac = {
         type: DELETE_POST_BY_NUMBER,
         index
     }),
-
 }
 const thunks = {
-    addNewPost: () => {
-        return (dispatch, getState) => {
+    addNewPost: () => (dispatch, getState) => {
             if (getState().notes.input.value !== '') {
                 dispatch(ac.addNewPost())
                 dispatch(ac.closeEditor())
+                localStorage.setItem(LOCAL_STORAGE_NAME,JSON.stringify(getState().notes.notesList))
             }
-        }
     },
-    confirmOldPostChange: () => {
-        return (dispatch, getState) => {
+    confirmOldPostChange: () => (dispatch, getState) => {
             const index = getState().notes.input.index;
             dispatch(ac.changeOldPost(index))
             dispatch(ac.closeEditor())
-        }
+            localStorage.setItem(LOCAL_STORAGE_NAME,JSON.stringify(getState().notes.notesList))
     },
-
+    deletePost:(index)=>(dispatch,getState)=>{
+        dispatch(ac.deletePost(index))
+        localStorage.setItem(LOCAL_STORAGE_NAME,JSON.stringify(getState().notes.notesList))
+    },
     openFilter: () => {
         return (dispatch) => {
             dispatch(ac.openFilter())
@@ -283,7 +280,7 @@ export const interFace = {
     openOldPostEditor: ac.openOldPostEditor,
     closeEditor: ac.closeEditor,
     changeEditorValue: ac.changeEditorValue,
-    deletePost: ac.deletePost,
+    deletePost: thunks.deletePost,
     openNewPostEditor: ac.openNewPostEditor,
     closeFilter: ac.closeFilter,
     changeFilterValue: ac.changeFilterValue,

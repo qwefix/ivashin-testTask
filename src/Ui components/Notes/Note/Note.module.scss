@@ -20,6 +20,10 @@
         max-height: fit-content;
         flex-wrap: wrap;
         display: flex;
+        }
+        .text_holder{
+            white-space: pre-wrap;
+        }
         .tag{
             height: 26px;
             margin: 2px;
@@ -36,10 +40,6 @@
             background-color: $button_active_bg;
             color: $button_active_text;
         }
-        .text{
-            white-space: pre-wrap;
-        }
-    }
     }
     .delete{
         grid-area: d;
@@ -49,7 +49,7 @@
         grid-area: e;
         background-color: blue;
     }
-    .edit.disabled{
+    .button.disabled{
         opacity: 0.3;
         cursor: default;
     }
