@@ -3,10 +3,74 @@
 
 
 .filter_wrapper{
-    transition: .5s;
     display: flex;
     width: 100%;
     flex-direction: column;
+    .filter{
+        max-height: 250px;
+        transition: .5s;
+        overflow-y: hidden;
+        .tags_container{
+            overflow-y: auto;
+            max-height: 200px;
+            .tags{
+                display: flex;
+                flex-wrap: wrap;
+                .tag{
+                    margin: 2.5px;
+                    font-weight: 600;
+                    display: flex;
+                    align-content: center;
+                    border-radius: 5px;
+                    padding: 2px;
+                    background-color: $button_active_bg;
+                    color: $button_active_text;
+                    .delete{
+                        background-color: red;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        opacity: 0.5;
+                    }
+                    .delete:hover{
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        .input_wrapper{
+            margin: 5px 0;
+            display: flex;
+            textarea{
+                flex-grow: 1;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-size: 20px;
+                background-color: #fff;
+                width: 100%;
+                padding: 0 5px ;
+                border: none;
+                resize: none;
+            }
+            .add_tag{
+                cursor: pointer;
+                width: 100px;
+                color:$button_text;
+                background-color:$button_bg ;
+                display: flex;
+                margin-left: 5px;
+                padding: 2px;
+                justify-content: center;
+            }
+            .add_tag:hover{
+                background-color: $button_active_bg;
+                color:$button_active_text;
+            }
+        }
+    }
+    .filter.closed{
+        max-height: 0px;
+    }
     .main_button{
         border-radius: 5px;
         margin: 5px 0;
@@ -16,70 +80,12 @@
         width: fit-content;
         color:$button_text;
         background-color:$button_bg ;
-        transition: .3s;
+        transition: .5s;
         align-self: center;
     }
     .main_button:hover{
         background-color: $button_active_bg;
         color:$button_active_text;
-    }
-
-    .tags_container{
-        overflow-y: auto;
-        max-height: 200px;
-        .tags{
-            display: flex;
-            flex-wrap: wrap;
-            .tag{
-                margin: 2.5px;
-                font-weight: 600;
-                display: flex;
-                align-content: center;
-                border-radius: 5px;
-                padding: 2px;
-                background-color: $button_active_bg;
-                color: $button_active_text;
-                .delete{
-                    background-color: red;
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    opacity: 0.5;
-                }
-                .delete:hover{
-                    opacity: 1;
-                }
-            }
-        }
-    }
-    .input_wrapper{
-        margin: 5px 0;
-        display: flex;
-        textarea{
-            flex-grow: 1;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 20px;
-            background-color: #fff;
-            width: 100%;
-            padding: 0 5px ;
-            border: none;
-            resize: none;
-        }
-        .add_tag{
-            cursor: pointer;
-            width: 100px;
-            color:$button_text;
-            background-color:$button_bg ;
-            display: flex;
-            margin-left: 5px;
-            padding: 2px;
-            justify-content: center;
-        }
-        .add_tag:hover{
-            background-color: $button_active_bg;
-            color:$button_active_text;
-        }
     }
     .close{
         color:$button_text;

@@ -3,10 +3,9 @@ import c from './Filter.module.scss'
 
 export default function Filter(props) {
     console.log(props)
-    const { active, tags } = props
-    // if (!active) return <div className={c.open}>Use filter</div>
-    return active ?
-        <div className={c.filter_wrapper}>
+    const { active, tags, openFilter, closeFilter } = props
+    return <div className={c.filter_wrapper}>
+        <div className={c.filter + (active ? '' : ' ' + c.closed)}>
             Filter by hashtags:
             <div className={c.tags_container}>
                 <div className={c.tags} >
@@ -18,15 +17,18 @@ export default function Filter(props) {
                 </div>
             </div>
             <div className={c.input_wrapper}>
-                <textarea rows='1'></textarea>
-                <div className={c.add_tag}>Add tag</div>
+                <textarea rows='1' disabled={!active}></textarea>
+                <div 
+                    className={c.add_tag}
+                    onClick = {active?'handler':null}
+                >Add tag</div>
             </div>
-            <div className={c.main_button+' '+c.close}>Close Filter</div>
         </div>
+        {active?
+        <div className={c.main_button + ' ' + c.close} onClick={closeFilter}>Close Filter</div>
         :
-        <div className={c.filter_wrapper}>
-            <div className={c.main_button}>Use filter</div>
-        </div>
-
-
+        <div className={c.main_button} onClick={openFilter} >Use filter</div>}
+        
+        
+    </div>
 }

@@ -8,8 +8,8 @@ const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
 const CLOSE_EDITOR = 'CLOSE_EDITOR'
 const CHANGE_OLD_POST = 'CHANGE_OLD_POST'
 
-// const OPEN_FILTER_PANEL = 'OPEN_FILTER_PANEL'
-// const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
+const OPEN_FILTER_PANEL = 'OPEN_FILTER_PANEL'
+const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
 // const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
 // const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_CLICK'
 // const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
@@ -17,7 +17,7 @@ const CHANGE_OLD_POST = 'CHANGE_OLD_POST'
 
 const initialState = {
     filter:{
-        active:true,
+        active:false,
         input:'',
         tags:['#1','#2','#amahashtag',],
         filtredPosts:[],
@@ -99,6 +99,22 @@ export const notesReducer = (state = initialState, action) => {
                 ...state,
                 notesList:listAfterChange
             }
+
+        case OPEN_FILTER_PANEL:
+            return{
+                ...state,
+                filter:{...state.filter,active:true}
+            }
+        case CLOSE_FILTER_PANEL:
+            return{
+                ...state,
+                filter:{
+                    active:false,
+                    input:'',
+                    tags:[],
+                    filtredPosts:[],
+                },
+            }
         default:
             return state;
     }
@@ -119,6 +135,14 @@ const ac = {
     }),
     openNewPostEditor: () => ({
         type: OPEN_NEW_POST_EDITOR,
+    }),
+    
+    openFilter:()=>({
+        type:OPEN_FILTER_PANEL
+    }),
+
+    closeFilter:()=>({
+        type:CLOSE_FILTER_PANEL
     }),
 
     changeEditorValue: (value) => ({
@@ -158,6 +182,8 @@ export const interFace = {
     changeEditorValue: ac.changeEditorValue,
     deletePost: ac.deletePost,
     openNewPostEditor: ac.openNewPostEditor,
+    closeFilter:ac.closeFilter,
+    openFilter:ac.openFilter,
     addNewPost: thunks.addNewPost,
     confirmOldPostChange: thunks.confirmOldPostChange,
 }
