@@ -37,8 +37,8 @@ function Input(props) {
             <div className={`${c.cancel} ${c.button}`} onClick={()=>closeEditor()}>
                 Cancel
             </div>
-
             <div className={c.tags_wrapper}>
+                tags
                 <div className={c.tags}>
                     {tags.map((tag, i) => <div className={c.tag} key={i}>{tag} </div>)}
                 </div>

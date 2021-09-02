@@ -56,13 +56,15 @@
     }
     .tags_wrapper{
         grid-area: tag;
-        overflow-y: scroll;
+        overflow-y: auto;
+        overflow-x: hidden;
         .tags{
             display: flex;
             align-items: center;
             justify-content: flex-start;            
             flex-direction: column;
             .tag{
+                overflow-wrap: anywhere;
                 font-weight: 600;
                 display: flex;
                 align-content: center;

@@ -5,41 +5,6 @@
     flex-direction: column;
     align-items: center;
 }
-.search{
-    width: 100%;
-    display: flex;
-    .description{
-        max-width: 250px;
-        margin-right: 10px;
-    }
-    .tags{
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;            
-        .tag{
-            font-weight: 600;
-            display: flex;
-            align-content: center;
-            margin-left: 3px;
-            border-radius: 2px;
-            padding: 2px;
-            background-color: $button_active_bg;
-            color: $button_active_text;
-            .delete{
-                background-color: red;
-                width: 10px;
-                height: 10px;
-                border-radius: 5px;
-                cursor: pointer;
-                opacity: 0.5;
-            }
-            .delete:hover{
-                opacity: 1;
-            }
-        }
-    }
-}
 
 .add_note{
     margin: 5px 0;
@@ -64,7 +29,7 @@
     height: 0px;
     flex-grow: 1;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .notes_list{
     display: grid;

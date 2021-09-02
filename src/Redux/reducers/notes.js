@@ -8,7 +8,20 @@ const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
 const CLOSE_EDITOR = 'CLOSE_EDITOR'
 const CHANGE_OLD_POST = 'CHANGE_OLD_POST'
 
+// const OPEN_FILTER_PANEL = 'OPEN_FILTER_PANEL'
+// const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
+// const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
+// const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_CLICK'
+// const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
+
+
 const initialState = {
+    filter:{
+        active:true,
+        input:'',
+        tags:['#1','#2','#amahashtag',],
+        filtredPosts:[],
+    },
     notesList: require('../initialState'),
     input: {
         value: '',
