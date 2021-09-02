@@ -2,7 +2,7 @@ import React from "react"
 import c from './Filter.module.scss'
 
 export default function Filter(props) {
-    console.log(props)
+    // console.log(props)
     const { active, tags, openFilter, closeFilter } = props
     return <div className={c.filter_wrapper}>
         <div className={c.filter + (active ? '' : ' ' + c.closed)}>
@@ -10,7 +10,7 @@ export default function Filter(props) {
             <div className={c.tags_container}>
                 <div className={c.tags} >
                     {tags.map(t =>
-                        <div className={c.tag}>
+                        <div className={c.tag} key={t}>
                             {t}
                             <div className={c.delete} />
                         </div>)}
@@ -20,7 +20,7 @@ export default function Filter(props) {
                 <textarea rows='1' disabled={!active}></textarea>
                 <div 
                     className={c.add_tag}
-                    onClick = {active?'handler':null}
+                    // onClick = {active?'handler':null}
                 >Add tag</div>
             </div>
         </div>

@@ -19,7 +19,7 @@ const initialState = {
     filter:{
         active:false,
         input:'',
-        tags:['#1','#2','#amahashtag',],
+        tags:['#1','#2'],
         filtredPosts:[],
     },
     notesList: require('../initialState'),
@@ -101,9 +101,20 @@ export const notesReducer = (state = initialState, action) => {
             }
 
         case OPEN_FILTER_PANEL:
+            let filteredArrOfPosts = [...state.notesList].filter(
+                post=>{
+                    return ! state.filter.tags.map(tag => {                        
+                        return post.tags.includes(tag)
+                    }).includes(false)
+                }
+            )
             return{
                 ...state,
-                filter:{...state.filter,active:true}
+                filter:{
+                    ...state.filter,
+                    active:true,
+                    filtredPosts:[...filteredArrOfPosts]
+                }
             }
         case CLOSE_FILTER_PANEL:
             return{
