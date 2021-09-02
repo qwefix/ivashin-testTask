@@ -38,7 +38,7 @@ function Input(props) {
                 Cancel
             </div>
             <div className={c.tags_wrapper}>
-                tags
+                Tags
                 <div className={c.tags}>
                     {tags.map((tag, i) => <div className={c.tag} key={i}>{tag} </div>)}
                 </div>

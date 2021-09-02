@@ -7,13 +7,39 @@
     grid-template-rows: 30px 30px auto;
     grid-gap: 5px;
     grid-template-areas: 
-        'tag  d'
-        't e'
-        't  .'
+        'm  d'
+        'm e'
+        'm  .'
     ;
-    .text{
-        grid-area: t;
-        white-space: pre-wrap;
+    .main{
+        grid-area: m;
+        display: flex;
+        flex-direction: column;
+        .tags{
+        min-height: 30px;
+        max-height: fit-content;
+        flex-wrap: wrap;
+        display: flex;
+        .tag{
+            height: 26px;
+            margin: 2px;
+            padding: 2px;
+            margin-left: 3px;
+            cursor: pointer;
+            background-color: $button_bg;
+            color: $button_text;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+        }
+        .tag:hover{
+            background-color: $button_active_bg;
+            color: $button_active_text;
+        }
+        .text{
+            white-space: pre-wrap;
+        }
+    }
     }
     .delete{
         grid-area: d;
@@ -28,6 +54,7 @@
         cursor: default;
     }
     .button{
+        user-select: none;
         cursor: pointer;
         border-radius: 50%;
         font-size: 15px;
@@ -41,24 +68,7 @@
         background-color: $button_active_bg;
         color: $button_active_text;
     }
-    .tags{
-        grid-area: tag;
-        display: flex;
-        .tag{
-            padding: 1px;
-            margin-left: 3px;
-            cursor: pointer;
-            background-color: $button_bg;
-            color: $button_text;
-            display: flex;
-            align-items: center;
-            transition: .2s;
-        }
-        .tag:hover{
-            background-color: $button_active_bg;
-            color: $button_active_text;
-        }
-    }
+   
 }
 .blink{
     animation: blinkingBackground 1s infinite;
