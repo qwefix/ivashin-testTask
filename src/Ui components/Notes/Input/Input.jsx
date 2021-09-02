@@ -3,9 +3,9 @@ import c from './Input.module.scss';
 
 function Input(props) {
     // console.log(props)
-    const { onChange, value, tags, addNewPost, mode,closeEditor } = props
-    const inputRef = React.createRef()
-    const renderAccept = (mode) => {
+    const { onChange, value, tags, addNewPost, mode,closeEditor, } = props
+    const inputRef = React.createRef()    
+    const renderButtons = (mode) => {
         switch (mode) {
             case 'new':
                 return <div className={`${c.accept} ${c.button}`} onClick={() => addNewPost()}>
@@ -14,7 +14,6 @@ function Input(props) {
             case 'old':
                 return <div
                     className={`${c.accept} ${c.button}`}
-                    // onClick={() => addNewPost()}
                 >
                     Accept
                 </div>
@@ -35,7 +34,7 @@ function Input(props) {
                 />
             </div>
 
-            {renderAccept(mode)}
+            {renderButtons(mode)}
             <div className={`${c.cancel} ${c.button}`} onClick={()=>closeEditor()}>
                 Cancel
             </div>

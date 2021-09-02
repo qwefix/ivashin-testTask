@@ -3,8 +3,9 @@
 const DELETE_POST_BY_NUMBER = 'DELETE_POST_BY_NUMBER'
 const CHANGE_NEW_POST_TEXTAREA_VALUE = 'CHANGE_NEW_POST_TEXTAREA_VALUE'
 const ADD_NEW_POST_FROM_INPUT = 'ADD_NEW_POST_FROM_INPUT'
-// const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
-// const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
+const HIGHLIGHT_EDITED_POST = 'HIGHLIGHT_EDITED_POST'
+const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
+const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
 const CLOSE_EDITOR = 'CLOSE_EDITOR'
 
 const initialState = {
@@ -54,29 +55,48 @@ export const notesReducer = (state = initialState, action) => {
                     mode: false,
                 }
             }
+        case OPEN_NEW_POST_EDITOR:
+            return {
+                ...state,
+                input: {
+                    ...state.input,
+                    mode: 'new',
+                }
+            }
         default:
             return state;
     }
 
 }
 const ac = {
-    deletePost: (index) => ({
-        type: DELETE_POST_BY_NUMBER,
-        index
+    highlightPostToEdit: (index) => ({
+        type: HIGHLIGHT_EDITED_POST,
+        index,
     }),
-    changeNewPostValue: (value) => ({
-        type: CHANGE_NEW_POST_TEXTAREA_VALUE,
-        value
+    openOldPostEditor: (index) => ({
+        type: OPEN_OLD_POST_EDITOR,
+        index,
     }),
+
     addNewPost: () => ({
         type: ADD_NEW_POST_FROM_INPUT,
+    }),
+    openNewPostEditor: () => ({
+        type: OPEN_NEW_POST_EDITOR,
+    }),
+
+    changeEditorValue: (value) => ({
+        type: CHANGE_NEW_POST_TEXTAREA_VALUE,
+        value
     }),
     closeEditor: () => ({
         type: CLOSE_EDITOR
     }),
-    selectPost: (index) => {
+    deletePost: (index) => ({
+        type: DELETE_POST_BY_NUMBER,
+        index
+    }),
 
-    }
 }
 const thunks = {
     addNewPost: () => {
@@ -92,6 +112,7 @@ const thunks = {
 export const interFace = {
     addNewPost: thunks.addNewPost,
     closeEditor: ac.closeEditor,
-    changeNewPostValue: ac.changeNewPostValue,
+    changeEditorValue: ac.changeEditorValue,
     deletePost: ac.deletePost,
+    openNewPostEditor: ac.openNewPostEditor,
 }
