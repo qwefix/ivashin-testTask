@@ -2,11 +2,11 @@ import React from 'react';
 import c from './Note.module.scss';
 
 function Note(props) {
-    const { text, tags, deletePost, isEditorIsActive, blink, editPost } = props
+    const { text, tags, deletePost, isEditorIsActive, blink, editPost,addTagToFilterByClick } = props
     return (
         <div className={c.note + (blink ? ' '+c.blink : '')}>
             <div className={c.tags}>
-                {tags.map((tag, i) => <div className={c.tag} key={i}>{tag}</div>)}
+                {tags.map((tag, i) => <div className={c.tag} onClick={()=>{addTagToFilterByClick(tag)}} key={i}>{tag}</div>)}
             </div>
             <div className={c.text}>
                 {text}

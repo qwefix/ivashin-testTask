@@ -12,7 +12,7 @@ const OPEN_FILTER_PANEL = 'OPEN_FILTER_PANEL'
 const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
 const REMOVE_FILTER_TAG_BY_CLICK = 'REMOVE_FILTER_TAG_BY_CLICK'
 const UPDATE_FILTER_OUTPUT_ARRAY = 'UPDATE_FILTER_OUTPUT_ARRAY'
-// const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
+const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
 // const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_CLICK'
 // const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
 
@@ -21,7 +21,7 @@ const initialState = {
     filter:{
         active:false,
         input:'',
-        tags:['#tag0','#1','#2'],
+        tags:[],
         filtredPosts:[],
     },
     notesList: require('../initialState'),
@@ -143,6 +143,14 @@ export const notesReducer = (state = initialState, action) => {
                     )
                 }
             }
+        case ADD_FILTER_TAG_BY_CLICK:
+            return{
+                ...state,
+                filter:{
+                    ...state.filter,
+                    tags:[...state.filter.tags, action.tag].filter((v, i, s) => s.indexOf(v) === i)
+                }
+            }
         default:
             return state;
     }
@@ -177,6 +185,10 @@ const ac = {
     }),
     updateFilterOutputArray:()=>({
         type:UPDATE_FILTER_OUTPUT_ARRAY,
+    }),
+    addTagToFilterByClick:(tag)=>({
+        type:ADD_FILTER_TAG_BY_CLICK,
+        tag
     }),
 
     changeEditorValue: (value) => ({
@@ -218,6 +230,11 @@ const thunks = {
     removeTagFromFilter:(tag)=>(dispatch)=>{
         dispatch(ac.removeTagFromFilter(tag))
         dispatch(ac.updateFilterOutputArray())
+    },
+    addTagToFilterByClick:(tag)=>(dispatch)=>{
+        dispatch(ac.openFilter())
+        dispatch(ac.addTagToFilterByClick(tag))
+        dispatch(ac.updateFilterOutputArray())
     }
 }
 
@@ -230,6 +247,7 @@ export const interFace = {
     closeFilter:ac.closeFilter,
     openFilter:thunks.openFilter,
     removeTagFromFilter:thunks.removeTagFromFilter,
+    addTagToFilterByClick:thunks.addTagToFilterByClick,
     addNewPost: thunks.addNewPost,
     confirmOldPostChange: thunks.confirmOldPostChange,
 }

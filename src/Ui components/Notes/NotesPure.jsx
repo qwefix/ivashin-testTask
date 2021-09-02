@@ -6,7 +6,7 @@ import c from './Notes.module.scss';
 
 function NotesPure(props) {
     // console.log(props)
-    const { notesList, deletePost, changeEditorValue, input, addNewPost, filter,removeTagFromFilter,
+    const { notesList, deletePost, changeEditorValue, input, addNewPost, filter,removeTagFromFilter,addTagToFilterByClick,
         closeEditor, openNewPostEditor, openOldPostEditor, confirmOldPostChange, openFilter, closeFilter } = props
         const notesToRender = filter.active? filter.filtredPosts: notesList
     return (
@@ -20,6 +20,7 @@ function NotesPure(props) {
             <div className={c.notes_list_container}>
                 <div className={c.notes_list}>
                     {notesToRender.map((a, i) => <Note
+                        addTagToFilterByClick = {addTagToFilterByClick}
                         editPost={() => openOldPostEditor(i)}
                         deletePost={() => deletePost(i)}
                         key={i}
