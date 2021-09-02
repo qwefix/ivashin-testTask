@@ -3,7 +3,7 @@ import c from './Filter.module.scss'
 
 export default function Filter(props) {
     // console.log(props)
-    const { active, tags, openFilter, closeFilter } = props
+    const { active, tags, openFilter, closeFilter,removeTagFromFilter } = props
     return <div className={c.filter_wrapper}>
         <div className={c.filter + (active ? '' : ' ' + c.closed)}>
             Filter by hashtags:
@@ -12,7 +12,9 @@ export default function Filter(props) {
                     {tags.map(t =>
                         <div className={c.tag} key={t}>
                             {t}
-                            <div className={c.delete} />
+                            <div className={c.delete}
+                            onClick = {()=>removeTagFromFilter(t)}
+                            />
                         </div>)}
                 </div>
             </div>

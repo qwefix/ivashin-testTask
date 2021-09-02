@@ -10,6 +10,8 @@ const CHANGE_OLD_POST = 'CHANGE_OLD_POST'
 
 const OPEN_FILTER_PANEL = 'OPEN_FILTER_PANEL'
 const CLOSE_FILTER_PANEL = 'CLOSE_FILTER_PANEL'
+const REMOVE_FILTER_TAG_BY_CLICK = 'REMOVE_FILTER_TAG_BY_CLICK'
+const UPDATE_FILTER_OUTPUT_ARRAY = 'UPDATE_FILTER_OUTPUT_ARRAY'
 // const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
 // const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_CLICK'
 // const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
@@ -19,7 +21,7 @@ const initialState = {
     filter:{
         active:false,
         input:'',
-        tags:['#1','#2'],
+        tags:['#tag0','#1','#2'],
         filtredPosts:[],
     },
     notesList: require('../initialState'),
@@ -101,19 +103,12 @@ export const notesReducer = (state = initialState, action) => {
             }
 
         case OPEN_FILTER_PANEL:
-            let filteredArrOfPosts = [...state.notesList].filter(
-                post=>{
-                    return ! state.filter.tags.map(tag => {                        
-                        return post.tags.includes(tag)
-                    }).includes(false)
-                }
-            )
+            
             return{
                 ...state,
                 filter:{
                     ...state.filter,
                     active:true,
-                    filtredPosts:[...filteredArrOfPosts]
                 }
             }
         case CLOSE_FILTER_PANEL:
@@ -125,6 +120,28 @@ export const notesReducer = (state = initialState, action) => {
                     tags:[],
                     filtredPosts:[],
                 },
+            }
+        case REMOVE_FILTER_TAG_BY_CLICK:
+            return{
+                ...state,
+                filter:{
+                    ...state.filter,
+                    tags:state.filter.tags.filter(t=>t!==action.tag)
+                }
+            }
+        case UPDATE_FILTER_OUTPUT_ARRAY:
+            return{
+                ...state,
+                filter:{
+                    ...state.filter,
+                    filtredPosts:[...state.notesList].filter(
+                        post=>{
+                            return ! state.filter.tags.map(tag => {                        
+                                return post.tags.includes(tag)
+                            }).includes(false)
+                        }
+                    )
+                }
             }
         default:
             return state;
@@ -151,9 +168,15 @@ const ac = {
     openFilter:()=>({
         type:OPEN_FILTER_PANEL
     }),
-
     closeFilter:()=>({
         type:CLOSE_FILTER_PANEL
+    }),
+    removeTagFromFilter:(tag)=>({
+        type:REMOVE_FILTER_TAG_BY_CLICK,
+        tag
+    }),
+    updateFilterOutputArray:()=>({
+        type:UPDATE_FILTER_OUTPUT_ARRAY,
     }),
 
     changeEditorValue: (value) => ({
@@ -185,6 +208,17 @@ const thunks = {
             dispatch(ac.closeEditor())
         }
     },
+
+    openFilter:()=>{
+        return (dispatch)=>{
+            dispatch(ac.openFilter())
+            dispatch(ac.updateFilterOutputArray())
+        }
+    },
+    removeTagFromFilter:(tag)=>(dispatch)=>{
+        dispatch(ac.removeTagFromFilter(tag))
+        dispatch(ac.updateFilterOutputArray())
+    }
 }
 
 export const interFace = {
@@ -194,7 +228,8 @@ export const interFace = {
     deletePost: ac.deletePost,
     openNewPostEditor: ac.openNewPostEditor,
     closeFilter:ac.closeFilter,
-    openFilter:ac.openFilter,
+    openFilter:thunks.openFilter,
+    removeTagFromFilter:thunks.removeTagFromFilter,
     addNewPost: thunks.addNewPost,
     confirmOldPostChange: thunks.confirmOldPostChange,
 }
