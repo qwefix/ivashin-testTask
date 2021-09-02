@@ -1,0 +1,21 @@
+@import '../../variables.scss';
+
+.header{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-color: $header_bg;
+    padding: 5px;
+    text-align: center;
+}
+.header h1{
+    margin: 0;
+}
+.background{
+    background-color: $header_bg;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+}

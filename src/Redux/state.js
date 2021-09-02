@@ -1,11 +1,10 @@
-import { combineReducers, createStore } from "redux";
-import { postsReducer } from "./reducers/posts";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import { notesReducer } from "./reducers/notes";
+import thunkMiddleware from "redux-thunk";
 
 const rootReducer = combineReducers({
-    posts: postsReducer
+    notes: notesReducer
 });
 
-let initialState = require('./initialState');
-
-const store = createStore(rootReducer, initialState)
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 export default store
