@@ -14,15 +14,15 @@ const REMOVE_FILTER_TAG_BY_CLICK = 'REMOVE_FILTER_TAG_BY_CLICK'
 const UPDATE_FILTER_OUTPUT_ARRAY = 'UPDATE_FILTER_OUTPUT_ARRAY'
 const ADD_FILTER_TAG_BY_CLICK = 'ADD_FILTER_TAG_BY_CLICK'
 // const ADD_FILTER_TAG_BY_INPUT = 'ADD_FILTER_TAG_BY_CLICK'
-// const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
+const FILTER_INPUT_CHANGE = 'FILTER_INPUT_CHANGE'
 
 
 const initialState = {
-    filter:{
-        active:false,
-        input:'',
-        tags:[],
-        filtredPosts:[],
+    filter: {
+        active: false,
+        input: 'sas',
+        tags: [],
+        filtredPosts: [],
     },
     notesList: require('../initialState'),
     input: {
@@ -34,13 +34,15 @@ const initialState = {
 
 export const notesReducer = (state = initialState, action) => {
     switch (action.type) {
+        //COMMON
         case DELETE_POST_BY_NUMBER:
-            let listAfterDelete =[...state.notesList]
+            let listAfterDelete = [...state.notesList]
             listAfterDelete.splice(action.index, 1)
             return {
                 ...state,
                 notesList: listAfterDelete
             }
+        //EDITOR
         case CHANGE_NEW_POST_TEXTAREA_VALUE:
             return {
                 ...state,
@@ -53,15 +55,6 @@ export const notesReducer = (state = initialState, action) => {
                         .filter((v, i, s) => s.indexOf(v) === i)
                 }
             }
-        case ADD_NEW_POST_FROM_INPUT:
-            return {
-                ...state,
-                notesList: [{
-                    tags: state.input.tags,
-                    text: state.input.value,
-                },
-                ...state.notesList],
-            }
         case CLOSE_EDITOR:
             return {
                 ...state,
@@ -71,6 +64,16 @@ export const notesReducer = (state = initialState, action) => {
                     mode: false,
                 }
             }
+        //EDITOR NEW POST 
+        case ADD_NEW_POST_FROM_INPUT:
+            return {
+                ...state,
+                notesList: [{
+                    tags: state.input.tags,
+                    text: state.input.value,
+                },
+                ...state.notesList],
+            }
         case OPEN_NEW_POST_EDITOR:
             return {
                 ...state,
@@ -79,7 +82,8 @@ export const notesReducer = (state = initialState, action) => {
                     mode: 'new',
                 }
             }
-        case OPEN_OLD_POST_EDITOR: 
+        //EDITOR OLD POST 
+        case OPEN_OLD_POST_EDITOR:
             const selectedPost = state.notesList[action.index]
             return {
                 ...state,
@@ -90,65 +94,82 @@ export const notesReducer = (state = initialState, action) => {
                     mode: 'old',
                 },
 
-            }        
+            }
         case CHANGE_OLD_POST:
-            let listAfterChange =[...state.notesList]
-            listAfterChange.splice(action.index, 1,{
+            let listAfterChange = [...state.notesList]
+            listAfterChange.splice(action.index, 1, {
                 tags: state.input.tags,
                 text: state.input.value,
             })
-            return{
+            return {
                 ...state,
-                notesList:listAfterChange
+                notesList: listAfterChange
             }
-
+        //FILTER
         case OPEN_FILTER_PANEL:
-            
-            return{
+
+            return {
                 ...state,
-                filter:{
+                filter: {
                     ...state.filter,
-                    active:true,
+                    active: true,
                 }
             }
         case CLOSE_FILTER_PANEL:
-            return{
+            return {
                 ...state,
-                filter:{
-                    active:false,
-                    input:'',
-                    tags:[],
-                    filtredPosts:[],
+                filter: {
+                    active: false,
+                    input: '',
+                    tags: [],
+                    filtredPosts: [],
                 },
             }
-        case REMOVE_FILTER_TAG_BY_CLICK:
-            return{
-                ...state,
-                filter:{
-                    ...state.filter,
-                    tags:state.filter.tags.filter(t=>t!==action.tag)
-                }
-            }
         case UPDATE_FILTER_OUTPUT_ARRAY:
-            return{
+            return {
                 ...state,
-                filter:{
+                filter: {
                     ...state.filter,
-                    filtredPosts:[...state.notesList].filter(
-                        post=>{
-                            return ! state.filter.tags.map(tag => {                        
+                    filtredPosts: [...state.notesList].filter(
+                        post => {
+                            return !state.filter.tags.map(tag => {
                                 return post.tags.includes(tag)
                             }).includes(false)
                         }
                     )
                 }
             }
+        //FILTER TAGS
+        case REMOVE_FILTER_TAG_BY_CLICK:
+            return {
+                ...state,
+                filter: {
+                    ...state.filter,
+                    tags: state.filter.tags.filter(t => t !== action.tag)
+                }
+            }
         case ADD_FILTER_TAG_BY_CLICK:
+            return {
+                ...state,
+                filter: {
+                    ...state.filter,
+                    tags: [...state.filter.tags, action.tag].filter((v, i, s) => s.indexOf(v) === i)
+                }
+            }
+        case FILTER_INPUT_CHANGE:
+            let string = action.value
+            string = string[0]==='#'?string:'#'+string
+            if(string.indexOf(' ')!==-1){
+                string = string.split('').filter(a=>a!==' ').join('')
+            }
+            if(string.indexOf('\n')!==-1){
+                string = string.split('').filter(a=>a!=='\n').join('')
+            }
             return{
                 ...state,
                 filter:{
                     ...state.filter,
-                    tags:[...state.filter.tags, action.tag].filter((v, i, s) => s.indexOf(v) === i)
+                    input:string,
                 }
             }
         default:
@@ -172,25 +193,28 @@ const ac = {
     openNewPostEditor: () => ({
         type: OPEN_NEW_POST_EDITOR,
     }),
-    
-    openFilter:()=>({
-        type:OPEN_FILTER_PANEL
-    }),
-    closeFilter:()=>({
-        type:CLOSE_FILTER_PANEL
-    }),
-    removeTagFromFilter:(tag)=>({
-        type:REMOVE_FILTER_TAG_BY_CLICK,
-        tag
-    }),
-    updateFilterOutputArray:()=>({
-        type:UPDATE_FILTER_OUTPUT_ARRAY,
-    }),
-    addTagToFilterByClick:(tag)=>({
-        type:ADD_FILTER_TAG_BY_CLICK,
-        tag
-    }),
 
+    openFilter: () => ({
+        type: OPEN_FILTER_PANEL
+    }),
+    closeFilter: () => ({
+        type: CLOSE_FILTER_PANEL
+    }),
+    removeTagFromFilter: (tag) => ({
+        type: REMOVE_FILTER_TAG_BY_CLICK,
+        tag
+    }),
+    updateFilterOutputArray: () => ({
+        type: UPDATE_FILTER_OUTPUT_ARRAY,
+    }),
+    addTagToFilterByClick: (tag) => ({
+        type: ADD_FILTER_TAG_BY_CLICK,
+        tag
+    }),
+    changeFilterValue:(value)=>({
+        type:FILTER_INPUT_CHANGE,
+        value
+    }),
     changeEditorValue: (value) => ({
         type: CHANGE_NEW_POST_TEXTAREA_VALUE,
         value
@@ -221,17 +245,17 @@ const thunks = {
         }
     },
 
-    openFilter:()=>{
-        return (dispatch)=>{
+    openFilter: () => {
+        return (dispatch) => {
             dispatch(ac.openFilter())
             dispatch(ac.updateFilterOutputArray())
         }
     },
-    removeTagFromFilter:(tag)=>(dispatch)=>{
+    removeTagFromFilter: (tag) => (dispatch) => {
         dispatch(ac.removeTagFromFilter(tag))
         dispatch(ac.updateFilterOutputArray())
     },
-    addTagToFilterByClick:(tag)=>(dispatch)=>{
+    addTagToFilterByClick: (tag) => (dispatch) => {
         dispatch(ac.openFilter())
         dispatch(ac.addTagToFilterByClick(tag))
         dispatch(ac.updateFilterOutputArray())
@@ -244,10 +268,11 @@ export const interFace = {
     changeEditorValue: ac.changeEditorValue,
     deletePost: ac.deletePost,
     openNewPostEditor: ac.openNewPostEditor,
-    closeFilter:ac.closeFilter,
-    openFilter:thunks.openFilter,
-    removeTagFromFilter:thunks.removeTagFromFilter,
-    addTagToFilterByClick:thunks.addTagToFilterByClick,
+    closeFilter: ac.closeFilter,
+    changeFilterValue: ac.changeFilterValue,
+    openFilter: thunks.openFilter,
+    removeTagFromFilter: thunks.removeTagFromFilter,
+    addTagToFilterByClick: thunks.addTagToFilterByClick,
     addNewPost: thunks.addNewPost,
     confirmOldPostChange: thunks.confirmOldPostChange,
 }
