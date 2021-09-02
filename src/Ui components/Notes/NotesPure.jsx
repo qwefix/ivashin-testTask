@@ -5,7 +5,8 @@ import c from './Notes.module.scss';
 
 function NotesPure(props) {
     // console.log(props)
-    const { notesList, deletePost, changeEditorValue, input, addNewPost, closeEditor, openNewPostEditor } = props
+    const { notesList, deletePost, changeEditorValue, input, addNewPost,
+         closeEditor, openNewPostEditor,openOldPostEditor,confirmOldPostChange } = props
     return (
         <div className={c.notes}>
             <div className={c.search}>
@@ -26,11 +27,12 @@ function NotesPure(props) {
             <div className={c.notes_list_container}>
                 <div className={c.notes_list}>
                     {notesList.map((a, i) => <Note
+                        editPost = {() => openOldPostEditor(i)}
                         deletePost={() => deletePost(i)}
                         key={i}
-                        text={a.text}
-                        tags={a.tags}
+                        blink = {i===input.index}
                         isEditorIsActive={input.mode}
+                        {...a}
                     />)}
                 </div>
             </div>
@@ -44,6 +46,7 @@ function NotesPure(props) {
                 closeEditor={closeEditor}
                 onChange={changeEditorValue}
                 addNewPost={addNewPost}
+                confirmOldPostChange={confirmOldPostChange}
                 {...input}
             />
         </div>

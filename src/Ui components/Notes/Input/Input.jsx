@@ -2,8 +2,7 @@ import React from 'react';
 import c from './Input.module.scss';
 
 function Input(props) {
-    // console.log(props)
-    const { onChange, value, tags, addNewPost, mode,closeEditor, } = props
+    const { onChange, value, tags, addNewPost, mode,closeEditor,confirmOldPostChange } = props
     const inputRef = React.createRef()    
     const renderButtons = (mode) => {
         switch (mode) {
@@ -13,7 +12,7 @@ function Input(props) {
                 </div>
             case 'old':
                 return <div
-                    className={`${c.accept} ${c.button}`}
+                    className={`${c.accept} ${c.button}`} onClick={confirmOldPostChange}
                 >
                     Accept
                 </div>

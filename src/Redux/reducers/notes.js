@@ -3,27 +3,28 @@
 const DELETE_POST_BY_NUMBER = 'DELETE_POST_BY_NUMBER'
 const CHANGE_NEW_POST_TEXTAREA_VALUE = 'CHANGE_NEW_POST_TEXTAREA_VALUE'
 const ADD_NEW_POST_FROM_INPUT = 'ADD_NEW_POST_FROM_INPUT'
-const HIGHLIGHT_EDITED_POST = 'HIGHLIGHT_EDITED_POST'
 const OPEN_OLD_POST_EDITOR = 'OPEN_OLD_POST_EDITOR'
 const OPEN_NEW_POST_EDITOR = 'OPEN_NEW_POST_EDITOR'
 const CLOSE_EDITOR = 'CLOSE_EDITOR'
+const CHANGE_OLD_POST = 'CHANGE_OLD_POST'
 
 const initialState = {
     notesList: require('../initialState'),
     input: {
         value: '',
         tags: [],
-        mode: 'new',
+        mode: false,
     },
 };
 
 export const notesReducer = (state = initialState, action) => {
-    // console.log(action.type)
     switch (action.type) {
         case DELETE_POST_BY_NUMBER:
+            let listAfterDelete =[...state.notesList]
+            listAfterDelete.splice(action.index, 1)
             return {
                 ...state,
-                noteList: state.notesList.splice(action.index, 1)
+                notesList: listAfterDelete
             }
         case CHANGE_NEW_POST_TEXTAREA_VALUE:
             return {
@@ -63,18 +64,40 @@ export const notesReducer = (state = initialState, action) => {
                     mode: 'new',
                 }
             }
+        case OPEN_OLD_POST_EDITOR: 
+            const selectedPost = state.notesList[action.index]
+            return {
+                ...state,
+                input: {
+                    value: selectedPost.text,
+                    tags: selectedPost.tags,
+                    index: action.index,
+                    mode: 'old',
+                },
+
+            }        
+        case CHANGE_OLD_POST:
+            let listAfterChange =[...state.notesList]
+            listAfterChange.splice(action.index, 1,{
+                tags: state.input.tags,
+                text: state.input.value,
+            })
+            return{
+                ...state,
+                notesList:listAfterChange
+            }
         default:
             return state;
     }
 
 }
 const ac = {
-    highlightPostToEdit: (index) => ({
-        type: HIGHLIGHT_EDITED_POST,
-        index,
-    }),
     openOldPostEditor: (index) => ({
         type: OPEN_OLD_POST_EDITOR,
+        index,
+    }),
+    changeOldPost: (index) => ({
+        type: CHANGE_OLD_POST,
         index,
     }),
 
@@ -107,12 +130,21 @@ const thunks = {
             }
         }
     },
+    confirmOldPostChange: () => {
+        return (dispatch, getState) => {
+            const index = getState().notes.input.index;
+            dispatch(ac.changeOldPost(index))
+            dispatch(ac.closeEditor())
+        }
+    },
 }
 
 export const interFace = {
-    addNewPost: thunks.addNewPost,
+    openOldPostEditor: ac.openOldPostEditor,
     closeEditor: ac.closeEditor,
     changeEditorValue: ac.changeEditorValue,
     deletePost: ac.deletePost,
     openNewPostEditor: ac.openNewPostEditor,
+    addNewPost: thunks.addNewPost,
+    confirmOldPostChange: thunks.confirmOldPostChange,
 }

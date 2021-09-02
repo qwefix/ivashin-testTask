@@ -41,22 +41,30 @@
         background-color: $button_active_bg;
         color: $button_active_text;
     }
-}
-.tags{
-    grid-area: tag;
-    display: flex;
-    .tag{
-        padding: 1px;
-        margin-left: 3px;
-        cursor: pointer;
-        background-color: $button_bg;
-        color: $button_text;
+    .tags{
+        grid-area: tag;
         display: flex;
-        align-items: center;
-        transition: .2s;
+        .tag{
+            padding: 1px;
+            margin-left: 3px;
+            cursor: pointer;
+            background-color: $button_bg;
+            color: $button_text;
+            display: flex;
+            align-items: center;
+            transition: .2s;
+        }
+        .tag:hover{
+            background-color: $button_active_bg;
+            color: $button_active_text;
+        }
     }
-    .tag:hover{
-        background-color: $button_active_bg;
-        color: $button_active_text;
-    }
+}
+.blink{
+    animation: blinkingBackground 1s infinite;
+}
+@keyframes blinkingBackground{
+    0%		{ background-color: white;}
+    50%		{ background-color: $button_active_bg}
+    100%	{ background-color: white;}
 }
