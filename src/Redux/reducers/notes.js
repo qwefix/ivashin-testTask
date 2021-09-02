@@ -23,7 +23,7 @@ const initialState = {
         tags: [],
         filtredPosts: [],
     },
-    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))||require('../initialState'),
+    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))||JSON.parse(require('../initialState')),
     input: {
         value: '',
         tags: [],
