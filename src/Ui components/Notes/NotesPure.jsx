@@ -22,7 +22,7 @@ function NotesPure(props) {
                 <div className={c.notes_list}>
                     {notesToRender.map((a, i) => <Note
                         addTagToFilterByClick = {addTagToFilterByClick}
-                        editPost={() => openOldPostEditor(i)}
+                        editPost={() => openOldPostEditor(a.key)}
                         deletePost={() => deletePost(a.key)}
                         key={i}
                         blink={i === input.index}
