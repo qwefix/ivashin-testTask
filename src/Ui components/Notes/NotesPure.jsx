@@ -20,12 +20,12 @@ function NotesPure(props) {
              />
             <div className={c.notes_list_container}>
                 <div className={c.notes_list}>
-                    {notesToRender.map((a, i) => <Note
+                    {notesToRender.map((a) => <Note
                         addTagToFilterByClick = {addTagToFilterByClick}
                         editPost={() => openOldPostEditor(a.key)}
                         deletePost={() => deletePost(a.key)}
-                        key={i}
-                        blink={i === input.key}
+                        key={a.key}
+                        blink={a.key === input.key}
                         isEditorIsActive={input.mode}
                         {...a}
                     />)}
