@@ -1,4 +1,4 @@
-const LOCAL_STORAGE_NAME ='qwefix-HRAMCHENKO_A_G-test-task-to-ivashin-from-NYBLE-CRAFT';
+const LOCAL_STORAGE_NAME = 'qwefix-HRAMCHENKO_A_G-test-task-to-ivashin-from-NYBLE-CRAFT';
 
 //VARIABLES TO POVIDE ACTION TO DISPATCH
 const DELETE_POST_BY_NUMBER = 'DELETE_POST_BY_NUMBER'
@@ -23,7 +23,7 @@ const initialState = {
         tags: [],
         filtredPosts: [],
     },
-    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))||require('../initialState'),
+    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME)) || JSON.parse(require('../initialState')),
     input: {
         value: '',
         tags: [],
@@ -35,11 +35,10 @@ export const notesReducer = (state = initialState, action) => {
     switch (action.type) {
         //COMMON
         case DELETE_POST_BY_NUMBER:
-            let listAfterDelete = [...state.notesList]
-            listAfterDelete.splice(action.index, 1)
+            let listAfterDelete = [...state.notesList].filter(a => a.key !== action.index)
             return {
                 ...state,
-                notesList: listAfterDelete
+                notesList: listAfterDelete.map((a, i) => ({ ...a, key: i }))
             }
         //EDITOR
         case CHANGE_NEW_POST_TEXTAREA_VALUE:
@@ -70,8 +69,7 @@ export const notesReducer = (state = initialState, action) => {
                 notesList: [{
                     tags: state.input.tags,
                     text: state.input.value,
-                },
-                ...state.notesList],
+                }, ...state.notesList].map((a, i) => ({ ...a, key: i })),
             }
         case OPEN_NEW_POST_EDITOR:
             return {
@@ -83,7 +81,7 @@ export const notesReducer = (state = initialState, action) => {
             }
         //EDITOR OLD POST 
         case OPEN_OLD_POST_EDITOR:
-            const selectedPost = state.notesList[action.index]
+            const selectedPost = state.notesList.find(a => a.key === action.index)
             return {
                 ...state,
                 input: {
@@ -102,7 +100,7 @@ export const notesReducer = (state = initialState, action) => {
             })
             return {
                 ...state,
-                notesList: listAfterChange
+                notesList: listAfterChange.map((a, i) => ({ ...a, key: i }))
             }
         //FILTER
         case OPEN_FILTER_PANEL:
@@ -157,28 +155,28 @@ export const notesReducer = (state = initialState, action) => {
             }
         case FILTER_INPUT_CHANGE:
             let string = action.value
-            string = string[0]==='#'?string:'#'+string
-            if(string.indexOf(' ')!==-1){
-                string = string.split('').filter(a=>a!==' ').join('')
+            string = string[0] === '#' ? string : '#' + string
+            if (string.indexOf(' ') !== -1) {
+                string = string.split('').filter(a => a !== ' ').join('')
             }
-            if(string.indexOf('\n')!==-1){
-                string = string.split('').filter(a=>a!=='\n').join('')
+            if (string.indexOf('\n') !== -1) {
+                string = string.split('').filter(a => a !== '\n').join('')
             }
-            return{
+            return {
                 ...state,
-                filter:{
+                filter: {
                     ...state.filter,
-                    input:string,
+                    input: string,
                 }
             }
         case ADD_FILTER_TAG_BY_INPUT:
-            if(state.filter.input===''||state.filter.input==='#')return state
-            return{
+            if (state.filter.input === '' || state.filter.input === '#') return state
+            return {
                 ...state,
-                filter:{
+                filter: {
                     ...state.filter,
-                    input:'',
-                    tags:[...state.filter.tags, state.filter.input]
+                    input: '',
+                    tags: [...state.filter.tags, state.filter.input]
                 }
             }
         default:
@@ -218,12 +216,12 @@ const ac = {
         type: ADD_FILTER_TAG_BY_CLICK,
         tag
     }),
-    changeFilterValue:(value)=>({
-        type:FILTER_INPUT_CHANGE,
+    changeFilterValue: (value) => ({
+        type: FILTER_INPUT_CHANGE,
         value
     }),
-    addFilterTagByInput:()=>({
-        type:ADD_FILTER_TAG_BY_INPUT,
+    addFilterTagByInput: () => ({
+        type: ADD_FILTER_TAG_BY_INPUT,
     }),
     changeEditorValue: (value) => ({
         type: CHANGE_NEW_POST_TEXTAREA_VALUE,
@@ -239,21 +237,22 @@ const ac = {
 }
 const thunks = {
     addNewPost: () => (dispatch, getState) => {
-            if (getState().notes.input.value !== '') {
-                dispatch(ac.addNewPost())
-                dispatch(ac.closeEditor())
-                localStorage.setItem(LOCAL_STORAGE_NAME,JSON.stringify(getState().notes.notesList))
-            }
+        if (getState().notes.input.value !== '') {
+            dispatch(ac.addNewPost())
+            dispatch(ac.closeEditor())
+            localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(getState().notes.notesList))
+        }
     },
     confirmOldPostChange: () => (dispatch, getState) => {
-            const index = getState().notes.input.index;
-            dispatch(ac.changeOldPost(index))
-            dispatch(ac.closeEditor())
-            localStorage.setItem(LOCAL_STORAGE_NAME,JSON.stringify(getState().notes.notesList))
+        const index = getState().notes.input.index;
+        dispatch(ac.changeOldPost(index))
+        dispatch(ac.closeEditor())
+        localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(getState().notes.notesList))
     },
-    deletePost:(index)=>(dispatch,getState)=>{
+    deletePost: (index) => (dispatch, getState) => {
         dispatch(ac.deletePost(index))
-        localStorage.setItem(LOCAL_STORAGE_NAME,JSON.stringify(getState().notes.notesList))
+        dispatch(ac.updateFilterOutputArray())
+        localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(getState().notes.notesList))
     },
     openFilter: () => {
         return (dispatch) => {
@@ -270,7 +269,7 @@ const thunks = {
         dispatch(ac.addTagToFilterByClick(tag))
         dispatch(ac.updateFilterOutputArray())
     },
-    addFilterTagByInput:()=>(dispatch)=>{
+    addFilterTagByInput: () => (dispatch) => {
         dispatch(ac.addFilterTagByInput())
         dispatch(ac.updateFilterOutputArray())
     }
@@ -284,7 +283,7 @@ export const interFace = {
     openNewPostEditor: ac.openNewPostEditor,
     closeFilter: ac.closeFilter,
     changeFilterValue: ac.changeFilterValue,
-    addFilterTagByInput:thunks.addFilterTagByInput,
+    addFilterTagByInput: thunks.addFilterTagByInput,
     openFilter: thunks.openFilter,
     removeTagFromFilter: thunks.removeTagFromFilter,
     addTagToFilterByClick: thunks.addTagToFilterByClick,

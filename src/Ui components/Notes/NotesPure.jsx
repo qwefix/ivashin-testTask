@@ -8,6 +8,7 @@ function NotesPure(props) {
     const { notesList, deletePost, changeEditorValue, input, addNewPost, filter,removeTagFromFilter,addTagToFilterByClick,
         closeEditor, openNewPostEditor, openOldPostEditor, confirmOldPostChange, openFilter, closeFilter,changeFilterValue,addFilterTagByInput } = props
         const notesToRender = filter.active? filter.filtredPosts: notesList
+        console.log(notesToRender)
     return (
         <div className={c.notes}>
             <Filter 
@@ -23,7 +24,7 @@ function NotesPure(props) {
                     {notesToRender.map((a, i) => <Note
                         addTagToFilterByClick = {addTagToFilterByClick}
                         editPost={() => openOldPostEditor(i)}
-                        deletePost={() => deletePost(i)}
+                        deletePost={() => deletePost(a.key)}
                         key={i}
                         blink={i === input.index}
                         isEditorIsActive={input.mode}
