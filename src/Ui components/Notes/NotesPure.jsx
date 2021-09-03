@@ -8,7 +8,6 @@ function NotesPure(props) {
     const { notesList, deletePost, changeEditorValue, input, addNewPost, filter,removeTagFromFilter,addTagToFilterByClick,
         closeEditor, openNewPostEditor, openOldPostEditor, confirmOldPostChange, openFilter, closeFilter,changeFilterValue,addFilterTagByInput } = props
         const notesToRender = filter.active? filter.filtredPosts: notesList
-        console.log(notesToRender)
     return (
         <div className={c.notes}>
             <Filter 

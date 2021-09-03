@@ -23,7 +23,7 @@ const initialState = {
         tags: [],
         filtredPosts: [],
     },
-    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))||JSON.parse(require('../initialState')),
+    notesList: JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME)) || require('../initialState'),
     input: {
         value: '',
         tags: [],
@@ -35,7 +35,7 @@ export const notesReducer = (state = initialState, action) => {
     switch (action.type) {
         //COMMON
         case DELETE_POST_BY_NUMBER:
-            let listAfterDelete = [...state.notesList].filter(a => a.key !== action.index)
+            let listAfterDelete = [...state.notesList].filter(a => a.key !== action.key)
             return {
                 ...state,
                 notesList: listAfterDelete.map((a, i) => ({ ...a, key: i }))
@@ -81,20 +81,20 @@ export const notesReducer = (state = initialState, action) => {
             }
         //EDITOR OLD POST 
         case OPEN_OLD_POST_EDITOR:
-            const selectedPost = state.notesList.find(a => a.key === action.index)
+            const selectedPost = state.notesList.find(a => a.key === action.key)
             return {
                 ...state,
                 input: {
                     value: selectedPost.text,
                     tags: selectedPost.tags,
-                    index: action.index,
+                    key: action.key,
                     mode: 'old',
                 },
 
             }
         case CHANGE_OLD_POST:
             let listAfterChange = [...state.notesList]
-            listAfterChange.splice(action.index, 1, {
+            listAfterChange.splice(state.input.key, 1, {
                 tags: state.input.tags,
                 text: state.input.value,
             })
@@ -185,13 +185,12 @@ export const notesReducer = (state = initialState, action) => {
 
 }
 const ac = {
-    openOldPostEditor: (index) => ({
+    openOldPostEditor: (key) => ({
         type: OPEN_OLD_POST_EDITOR,
-        index,
+        key,
     }),
-    changeOldPost: (index) => ({
+    changeOldPost: () => ({
         type: CHANGE_OLD_POST,
-        index,
     }),
     addNewPost: () => ({
         type: ADD_NEW_POST_FROM_INPUT,
@@ -230,9 +229,9 @@ const ac = {
     closeEditor: () => ({
         type: CLOSE_EDITOR
     }),
-    deletePost: (index) => ({
+    deletePost: (key) => ({
         type: DELETE_POST_BY_NUMBER,
-        index
+        key
     }),
 }
 const thunks = {
@@ -244,13 +243,12 @@ const thunks = {
         }
     },
     confirmOldPostChange: () => (dispatch, getState) => {
-        const index = getState().notes.input.index;
-        dispatch(ac.changeOldPost(index))
+        dispatch(ac.changeOldPost())
         dispatch(ac.closeEditor())
         localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(getState().notes.notesList))
     },
-    deletePost: (index) => (dispatch, getState) => {
-        dispatch(ac.deletePost(index))
+    deletePost: (key) => (dispatch, getState) => {
+        dispatch(ac.deletePost(key))
         dispatch(ac.updateFilterOutputArray())
         localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(getState().notes.notesList))
     },

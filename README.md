@@ -21,3 +21,9 @@ Great features
 * Adding new note by typing and button click
 * Hashtags is displaying 'in real time' whenever new note edits
 * If the hashtag is repeated in the text, it will be shown only once in the header of note
+
+* can edit note 
+
+* You can filtrate notes by hashtag
+* You can add hashtag to filter by input
+* You can add hashtag to filter by click on hashtag
