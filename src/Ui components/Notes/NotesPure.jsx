@@ -25,7 +25,7 @@ function NotesPure(props) {
                         editPost={() => openOldPostEditor(a.key)}
                         deletePost={() => deletePost(a.key)}
                         key={i}
-                        blink={i === input.index}
+                        blink={i === input.key}
                         isEditorIsActive={input.mode}
                         {...a}
                     />)}

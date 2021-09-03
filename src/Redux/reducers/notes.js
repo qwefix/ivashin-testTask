@@ -110,6 +110,7 @@ export const notesReducer = (state = initialState, action) => {
                 filter: {
                     ...state.filter,
                     active: true,
+                    key: action.key
                 }
             }
         case CLOSE_FILTER_PANEL:
@@ -195,8 +196,9 @@ const ac = {
     addNewPost: () => ({
         type: ADD_NEW_POST_FROM_INPUT,
     }),
-    openNewPostEditor: () => ({
+    openNewPostEditor: (key) => ({
         type: OPEN_NEW_POST_EDITOR,
+        key
     }),
     openFilter: () => ({
         type: OPEN_FILTER_PANEL
@@ -245,6 +247,7 @@ const thunks = {
     confirmOldPostChange: () => (dispatch, getState) => {
         dispatch(ac.changeOldPost())
         dispatch(ac.closeEditor())
+        dispatch(ac.updateFilterOutputArray())
         localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(getState().notes.notesList))
     },
     deletePost: (key) => (dispatch, getState) => {
